@@ -1,0 +1,55 @@
+.text-bold {
+  font-weight: bold;
+}
+
+.text-semibold {
+  font-weight: 600;
+}
+
+.text-alert {
+  color: rgba($base-red, .8);
+}
+
+.text-secondary {
+  color: $base-gray;
+}
+
+.text-warning {
+  color: $base-orange;
+}
+
+.text-dark {
+  color: $base-dark;
+}
+
+.text-white {
+  color: $base-white;
+}
+
+.text-blue {
+  color: $base-blue
+}
+
+.text-uppercase {
+  text-transform: uppercase;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-10px {
+  font-size: 10px;
+}
+
+.text-12px {
+  font-size: 12px;
+}
+
+.text-18px {
+  font-size: 18px;
+}
+
+.text-24px {
+  font-size: 24px;
+}

@@ -24,7 +24,7 @@ body {
 
 .container {
   margin: 0 auto;
-  width: 95%;
+  width: 1140px;
 }
 
 button {
@@ -62,4 +62,12 @@ a {
 
 img {
   max-width: 100%;
+}
+
+.base-link {
+  color: $base-button-blue;
+  border-bottom: 1px dashed $base-button-blue;
+  &:hover {
+    border-bottom: none;
+  }
 }
