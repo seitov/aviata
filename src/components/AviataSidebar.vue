@@ -1,5 +1,5 @@
 <template>
-  <div class="sidebar">
+  <div class="sidebar text-12px">
     <div class="sidebar-filter">
       <h3 class="sidebar-filter__title text-bold text-14px">Опции тарифа</h3>
       <div class="sidebar-filter__options">
@@ -16,10 +16,22 @@
     <div class="sidebar-filter">
       <h3 class="sidebar-filter__title text-bold text-14px">Авиакомпании</h3>
       <div class="sidebar-filter__options">
+        <AviataCustomCheckbox />
+      </div>
+      <div class="sidebar-filter__options sidebar-filter__options--scroll">
         <ul class="sidebar-filter__option-list">
-          <li class="sidebar-filter__option-item">
-            <AviataCustomCheckbox />
-          </li>
+          <li class="sidebar-filter__option-item"><AviataCustomCheckbox /></li>
+          <li class="sidebar-filter__option-item"><AviataCustomCheckbox /></li>
+          <li class="sidebar-filter__option-item"><AviataCustomCheckbox /></li>
+          <li class="sidebar-filter__option-item"><AviataCustomCheckbox /></li>
+          <li class="sidebar-filter__option-item"><AviataCustomCheckbox /></li>
+          <li class="sidebar-filter__option-item"><AviataCustomCheckbox /></li>
+          <li class="sidebar-filter__option-item"><AviataCustomCheckbox /></li>
+          <li class="sidebar-filter__option-item"><AviataCustomCheckbox /></li>
+          <li class="sidebar-filter__option-item"><AviataCustomCheckbox /></li>
+          <li class="sidebar-filter__option-item"><AviataCustomCheckbox /></li>
+          <li class="sidebar-filter__option-item"><AviataCustomCheckbox /></li>
+          <li class="sidebar-filter__option-item"><AviataCustomCheckbox /></li>
           <li class="sidebar-filter__option-item"><AviataCustomCheckbox /></li>
           <li class="sidebar-filter__option-item"><AviataCustomCheckbox /></li>
           <li class="sidebar-filter__option-item"><AviataCustomCheckbox /></li>
@@ -46,13 +58,16 @@ export default {
 .sidebar {
   width: 100%;
   height: 100%;
+  overflow: hidden;
+  box-sizing: content-box;
 }
 .sidebar-filter {
   width: 100%;
   background-color: $base-light-gray;
   border-radius: 4px;
-  padding: 12px 0;
+  padding: 12px 4px 0 0;
   margin-bottom: 12px;
+  max-height: 320px;
   &:last-child {
     margin-bottom: 0;
   }
@@ -63,6 +78,30 @@ export default {
   }
   &__title {
     margin: 0 10px 12px 10px;
+  }
+  &__options {
+    &--scroll {
+      overflow-y: auto;
+      max-height: calc(305px - 80px);
+      &::-webkit-scrollbar {
+        width: 2px;
+        background: $base-light-gray;
+        border-radius: 2px;
+      }
+      &::-webkit-scrollbar-button:start {
+        display: none;
+      }
+      &::-webkit-scrollbar-button:end {
+        display: none;
+      }
+      &::-webkit-scrollbar-thumb {
+        background: $base-dark-gray;
+        border-radius: 2px;
+        width: 2px;
+        height: 117px;
+        background-clip: padding-box;
+      }
+    }
   }
   &__option-list {
     width: 100%;
