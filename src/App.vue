@@ -4,7 +4,9 @@
     <main class="main">
       <div class="container">
         <div class="content">
-          <section class="section section__sidebar"></section>
+          <section class="section section__sidebar">
+            <AviataSidebar />
+          </section>
           <section class="section section__tickets">
             <AviataTicket />
             <AviataTicket />
@@ -24,11 +26,13 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import AviataTicket from "@/components/AviataTicket.vue";
+import AviataSidebar from "@/components/AviataSidebar.vue";
 
 export default defineComponent({
   name: "App",
   components: {
     AviataTicket,
+    AviataSidebar,
   },
 });
 </script>
@@ -53,6 +57,7 @@ export default defineComponent({
 
   &__sidebar {
     width: 25%;
+    margin-right: 20px;
   }
 
   &__tickets {
