@@ -38,13 +38,20 @@ export default {
     border-radius: 2px;
     margin-right: 12px;
     background-color: $base-white;
-    transition: background-color 0.4s;
+    transition: background-color 0.4s ease-in-out;
+  }
+  &__input:hover ~ .custom-checkbox__checkmark {
+    background-image: url("../assets/icons/checbox-hover.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    transition: background-image 0.4s ease-in-out;
   }
   &__input:checked ~ .custom-checkbox__checkmark {
     border: 1px solid $base-green;
     background-image: url("../assets/icons/checbox-active.svg");
     background-position: center;
     background-repeat: no-repeat;
+    transition: background-image 0.4s ease-in-out;
   }
 }
 </style>
