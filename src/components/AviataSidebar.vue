@@ -5,36 +5,31 @@
       <div class="sidebar-filter__options">
         <ul class="sidebar-filter__option-list">
           <li class="sidebar-filter__option-item">
-            <AviataCustomCheckbox />
+            <AviataCustomCheckbox name="Только прямые" />
           </li>
-          <li class="sidebar-filter__option-item"><AviataCustomCheckbox /></li>
-          <li class="sidebar-filter__option-item"><AviataCustomCheckbox /></li>
-          <li class="sidebar-filter__option-item"><AviataCustomCheckbox /></li>
+          <li class="sidebar-filter__option-item">
+            <AviataCustomCheckbox name="Только с багажом" />
+          </li>
+          <li class="sidebar-filter__option-item">
+            <AviataCustomCheckbox name="Только возвратные" />
+          </li>
         </ul>
       </div>
     </div>
     <div class="sidebar-filter">
       <h3 class="sidebar-filter__title text-bold text-14px">Авиакомпании</h3>
       <div class="sidebar-filter__options">
-        <AviataCustomCheckbox />
+        <AviataCustomCheckbox name="Все" />
       </div>
       <div class="sidebar-filter__options sidebar-filter__options--scroll">
         <ul class="sidebar-filter__option-list">
-          <li class="sidebar-filter__option-item"><AviataCustomCheckbox /></li>
-          <li class="sidebar-filter__option-item"><AviataCustomCheckbox /></li>
-          <li class="sidebar-filter__option-item"><AviataCustomCheckbox /></li>
-          <li class="sidebar-filter__option-item"><AviataCustomCheckbox /></li>
-          <li class="sidebar-filter__option-item"><AviataCustomCheckbox /></li>
-          <li class="sidebar-filter__option-item"><AviataCustomCheckbox /></li>
-          <li class="sidebar-filter__option-item"><AviataCustomCheckbox /></li>
-          <li class="sidebar-filter__option-item"><AviataCustomCheckbox /></li>
-          <li class="sidebar-filter__option-item"><AviataCustomCheckbox /></li>
-          <li class="sidebar-filter__option-item"><AviataCustomCheckbox /></li>
-          <li class="sidebar-filter__option-item"><AviataCustomCheckbox /></li>
-          <li class="sidebar-filter__option-item"><AviataCustomCheckbox /></li>
-          <li class="sidebar-filter__option-item"><AviataCustomCheckbox /></li>
-          <li class="sidebar-filter__option-item"><AviataCustomCheckbox /></li>
-          <li class="sidebar-filter__option-item"><AviataCustomCheckbox /></li>
+          <li
+            class="sidebar-filter__option-item"
+            v-for="(airline, airlineCode) in airlines"
+            :key="airlineCode"
+          >
+            <AviataCustomCheckbox :name="airline" />
+          </li>
         </ul>
       </div>
     </div>
@@ -44,14 +39,22 @@
   </div>
 </template>
 
-<script>
-import AviataCustomCheckbox from "@/components/AviataCustomCheckbox";
-export default {
+<script lang="ts">
+import AviataCustomCheckbox from "@/components/AviataCustomCheckbox.vue";
+import { mapGetters } from "vuex";
+import { defineComponent } from "vue";
+
+export default defineComponent({
   name: "AviataSidebar",
   components: {
     AviataCustomCheckbox,
   },
-};
+  computed: {
+    ...mapGetters({
+      airlines: "airlines",
+    }),
+  },
+});
 </script>
 
 <style lang="scss" scoped>

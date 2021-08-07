@@ -5,40 +5,60 @@
         <div class="ticket__flight-company">
           <div class="ticket__flight-company-logo">
             <img
-              src="https://aviata.kz/static/airline-logos/21x21/HY.png"
+              :src="`https://aviata.kz/static/airline-logos/21x21/${itinerary.carrier}.png`"
               alt="Uzbekistan airways"
             />
           </div>
           <div class="ticket__flight-company-name text-semibold">
-            Air Astana
+            {{ itinerary.carrier_name }}
           </div>
         </div>
         <div class="ticket__flight-info text-12px">
           <div class="ticket__flight-schedule">
-            <div class="ticket__flight-date">25 ноя, вс</div>
+            <div class="ticket__flight-date">
+              {{ departureDate }}
+            </div>
             <div class="ticket__flight-time text-24px">
-              <strong class="text-semibold">23:25</strong>
+              <strong class="text-semibold">
+                {{ departureTime }}
+              </strong>
             </div>
           </div>
           <div class="ticket__flight-layover-info">
             <div class="ticket__flight-airports">
-              <span class="text-uppercase text-secondary text-10px">ALA</span>
-              <span>4 ч 20 м</span>
-              <span class="text-uppercase text-secondary text-10px">ALA</span>
+              <span
+                class="text-uppercase text-secondary text-10px"
+                :title="segments[0].origin"
+              >
+                {{ segments[0].origin_code }}
+              </span>
+              <span>{{ travelTime }}</span>
+              <span
+                class="text-uppercase text-secondary text-10px"
+                :title="segments[segments.length - 1].dest"
+              >
+                {{ segments[segments.length - 1].dest_code }}
+              </span>
             </div>
             <div class="ticket__flight-timeline">
-              <span></span>
+              <span v-if="segments.length > 1"></span>
             </div>
-            <div class="ticket__flight-way text-center text-warning">
-              через Шымкент, 1 ч 50 м
+            <div
+              class="ticket__flight-waypoints text-center text-warning"
+              v-if="segments.length > 1"
+            >
+              через {{ waypoints }}
             </div>
           </div>
           <div class="ticket__flight-schedule">
             <div class="ticket__flight-date">
-              25 ноя, вс <span class="text-alert">+1</span>
+              {{ arriveDate }}
+              <span class="text-alert" v-if="nextDay">+{{ nextDay }}</span>
             </div>
             <div class="ticket__flight-time text-24px">
-              <strong class="text-semibold">23:25</strong>
+              <strong class="text-semibold">
+                {{ arriveTime }}
+              </strong>
             </div>
           </div>
         </div>
@@ -46,8 +66,11 @@
       <div class="ticket__details text-12px">
         <div class="ticket__details-info">
           <a href="#" class="ticket__details-link base-link">Детали перелета</a>
-          <a href="#" class="ticket__details-link base-link">Детали перелета</a>
-          <span class="ticket__details-status text-dark">
+          <a href="#" class="ticket__details-link base-link">Условия тарифа</a>
+          <span
+            class="ticket__details-status text-dark"
+            v-if="!flight.refundable"
+          >
             <span class="icon"><NonRefundableIcon /></span>
             невозвратный
           </span>
@@ -57,8 +80,10 @@
     <div class="ticket__price">
       <div class="ticket__price-row text-24px">
         <strong class="text-semibold">
-          590 240
-          <span class="text-18px">₸</span>
+          {{ flight.price }}
+          <span class="text-18px">
+            {{ currency }}
+          </span>
         </strong>
       </div>
       <div class="ticket__price-row">
@@ -73,7 +98,7 @@
         Цена за всех пассажиров
       </div>
       <div class="ticket__price-row ticket__price-row--space-between text-12px">
-        <span class="ticket__baggage-status">Нет багажа</span>
+        <span class="ticket__baggage-status">{{ baggage }}</span>
         <button class="ticket__add-baggage-button text-blue text-semibold">
           + Добавить богаж
         </button>
@@ -82,14 +107,101 @@
   </div>
 </template>
 
-<script>
-import NonRefundableIcon from "@/components/icons/AviataIcon";
-export default {
+<script lang="ts">
+import NonRefundableIcon from "@/components/icons/NonRefundableIcon.vue";
+import { defineComponent, PropType } from "vue";
+import {
+  FlightsModel,
+  ItinerariesModel,
+  SegmentsModel,
+} from "@/api/search.service";
+import { format, formatDistanceStrict } from "date-fns";
+import { ru } from "date-fns/locale";
+
+export default defineComponent({
   name: "AviataTicket",
   components: {
     NonRefundableIcon,
   },
-};
+  props: {
+    flight: {
+      type: Object as PropType<FlightsModel>,
+      required: true,
+    },
+  },
+  computed: {
+    itinerary(): ItinerariesModel {
+      return this.flight.itineraries[0][0];
+    },
+    currency(): string {
+      const currencySymbols: { [key in string]: string } = {
+        KZT: "₸",
+        USD: "$",
+        EUR: "€",
+      };
+      return currencySymbols[this.flight.currency] || this.flight.currency;
+    },
+    departureDate(): string {
+      return this.setDateFormat(this.itinerary.dep_date, "d MMM, eee");
+    },
+    departureTime(): string {
+      return this.setDateFormat(this.itinerary.dep_date, "HH:mm");
+    },
+    arriveDate(): string {
+      return this.setDateFormat(this.itinerary.arr_date, "d MMM, eee");
+    },
+    arriveTime(): string {
+      return this.setDateFormat(this.itinerary.arr_date, "HH:mm");
+    },
+    nextDay(): number {
+      const departureDate = new Date(this.itinerary.dep_date);
+      const arriveDate = new Date(this.itinerary.arr_date);
+      return +formatDistanceStrict(arriveDate, departureDate, {
+        unit: "day",
+        locale: ru,
+      })
+        .split(" ", 1)
+        .join();
+    },
+    travelTime(): string {
+      return this.setTimeFromTimestamp(this.itinerary.traveltime);
+    },
+    segments(): SegmentsModel[] {
+      return this.itinerary.segments;
+    },
+    waypoints(): string {
+      if (this.segments.length <= 1) return "";
+      const MILLISECONDS_IN_SECOND = 1000;
+      return this.segments.reduce((acc, segment, index, iterableArray) => {
+        if (index === iterableArray.length - 1) return acc;
+        const departureTime = new Date(segment.dep_time_iso).getTime();
+        const arriveTime = new Date(segment.arr_time_iso).getTime();
+        const timestamp = (arriveTime - departureTime) / MILLISECONDS_IN_SECOND;
+        const time = this.setTimeFromTimestamp(timestamp);
+        return `${segment.dest}, ${time} \n ${acc}`;
+      }, "");
+    },
+    baggage(): string {
+      return this.flight.services[Object.keys(this.flight.services)[0]].value;
+    },
+  },
+  methods: {
+    setDateFormat(date: string, dateFormat: string): string {
+      return format(new Date(date), dateFormat, {
+        locale: ru,
+      });
+    },
+    setTimeFromTimestamp(timestamp: number): string {
+      const SECONDS_IN_HOUR = 3600;
+      const MINUTES_IN_HOUR = 60;
+      const hours = Math.floor(timestamp / SECONDS_IN_HOUR);
+      const minutes = Math.floor(
+        timestamp / MINUTES_IN_HOUR - hours * MINUTES_IN_HOUR
+      );
+      return `${hours}ч ${minutes}м`;
+    },
+  },
+});
 </script>
 
 <style lang="scss" scoped>
@@ -137,6 +249,9 @@ export default {
     &:last-child {
       margin-right: 0;
     }
+  }
+  &__flight-date {
+    white-space: nowrap;
   }
   &__flight-layover-info {
     margin-right: 28px;
