@@ -1,15 +1,27 @@
 <template>
   <label class="custom-checkbox">
-    <input class="custom-checkbox__input" type="checkbox" />
+    <input
+      class="custom-checkbox__input"
+      type="checkbox"
+      @change="$emit('onChange', $event)"
+    />
     <span class="custom-checkbox__checkmark"></span>
-    <span>Только прямые</span>
+    <span>{{ name }}</span>
   </label>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import { defineComponent } from "vue";
+
+export default defineComponent({
   name: "AviataCustomCheckbox",
-};
+  props: {
+    name: {
+      type: String,
+      required: true,
+    },
+  },
+});
 </script>
 
 <style lang="scss" scoped>

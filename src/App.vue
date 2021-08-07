@@ -8,13 +8,11 @@
             <AviataSidebar />
           </section>
           <section class="section section__tickets">
-            <AviataTicket />
-            <AviataTicket />
-            <AviataTicket />
-            <AviataTicket />
-            <AviataTicket />
-            <AviataTicket />
-            <AviataTicket />
+            <AviataTicket
+              v-for="flight in flights"
+              :key="flight.id"
+              :flight="flight"
+            />
           </section>
         </div>
       </div>
@@ -27,12 +25,22 @@
 import { defineComponent } from "vue";
 import AviataTicket from "@/components/AviataTicket.vue";
 import AviataSidebar from "@/components/AviataSidebar.vue";
+import { mapGetters } from "vuex";
+import { SearchActionTypes } from "@/store/modules/search/types";
 
 export default defineComponent({
   name: "App",
   components: {
     AviataTicket,
     AviataSidebar,
+  },
+  computed: {
+    ...mapGetters({
+      flights: "flights",
+    }),
+  },
+  created(): void {
+    this.$store.dispatch(SearchActionTypes.FETCH_JSON_DATA);
   },
 });
 </script>

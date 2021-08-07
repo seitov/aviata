@@ -29,12 +29,6 @@
 <script>
 export default {
   name: "NonRefundableIcon",
-  props: {
-    iconFill: {
-      type: String,
-      default: "none",
-    },
-  },
 };
 </script>
 
