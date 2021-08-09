@@ -5,6 +5,8 @@ body, html {
 
 html {
   font-size: 14px;
+  overflow-x: hidden;
+  margin-right: calc(-1 * (100vw - 100%));
 }
 
 body {
@@ -24,7 +26,14 @@ body {
 
 .container {
   margin: 0 auto;
-  width: 1140px;
+  width: 1200px;
+  @include laptop {
+    width: 992px;
+    padding: 0 20px 0px 5px;
+  }
+  @include tablets {
+    width: 768px;
+  }
 }
 
 button {

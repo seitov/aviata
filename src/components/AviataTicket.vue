@@ -214,6 +214,9 @@ export default defineComponent({
   margin-bottom: 12px;
   display: flex;
   flex-direction: row;
+  @include laptop {
+    margin-bottom: 10px;
+  }
   &:last-child {
     margin-bottom: 0;
   }
@@ -225,20 +228,29 @@ export default defineComponent({
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    @include laptop {
+      padding: 35px 35px 14px 35px;
+    }
   }
   &__flight {
+    width: 100%;
     display: flex;
     flex-direction: row;
-    margin-bottom: 1.5rem;
   }
   &__flight-company {
     display: flex;
+    width: 8rem;
     flex-direction: row;
-    margin-right: 13px;
+    margin-right: 28px;
     align-items: center;
+    @include laptop {
+      margin-right: 15px;
+    }
   }
   &__flight-company-logo {
     margin-right: 11.5px;
+    width: 20px;
+    height: 20px;
   }
   &__flight-info {
     display: flex;
@@ -246,6 +258,9 @@ export default defineComponent({
   }
   &__flight-schedule {
     margin-right: 28px;
+    @include laptop {
+      margin-right: 15px;
+    }
     &:last-child {
       margin-right: 0;
     }
@@ -255,13 +270,18 @@ export default defineComponent({
   }
   &__flight-layover-info {
     margin-right: 28px;
+    width: 12rem;
+    @include laptop {
+      margin-right: 15px;
+      width: 10rem;
+    }
   }
   &__flight-airports {
     display: flex;
     justify-content: space-between;
   }
   &__flight-timeline {
-    width: 170px;
+    width: 100%;
     border-bottom: 1px solid $base-gray;
     position: relative;
     margin: 3.5px 0;
