@@ -1,24 +1,11 @@
-# aviata
+# Тестовое задание Aviata
 
-## Project setup
-```
-npm install
-```
+> Demo - страницу можно посмотреть на Github Pages пройдя по этой [ссылке](https://seitov.github.io/aviata/)
 
-### Compiles and hot-reloads for development
+##  Развертывание проекта:
+```sh
+$ git clone https://github.com/seitov/aviata.git
+$ cd aviata
+$ npm install
+$ npm run serve or npm run build
 ```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
