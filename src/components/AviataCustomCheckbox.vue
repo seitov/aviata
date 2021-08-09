@@ -3,23 +3,38 @@
     <input
       class="custom-checkbox__input"
       type="checkbox"
-      @change="$emit('onChange', $event)"
+      v-model="computedValue"
+      :name="value"
+      :value="value"
     />
     <span class="custom-checkbox__checkmark"></span>
-    <span>{{ name }}</span>
+    <span>{{ label }}</span>
   </label>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, computed } from "vue";
 
 export default defineComponent({
   name: "AviataCustomCheckbox",
   props: {
-    name: {
+    label: {
       type: String,
       required: true,
     },
+    modelValue: [Boolean, String, Number, Array as any],
+    value: String,
+  },
+  setup: (props, { emit }) => {
+    const computedValue = computed({
+      get(): any {
+        return props.modelValue;
+      },
+      set(value: any) {
+        emit("update:modelValue", value);
+      },
+    });
+    return { computedValue };
   },
 });
 </script>

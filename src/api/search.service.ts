@@ -6,7 +6,7 @@ export const getJsonResponse = (): Promise<ResponseModel> => {
 
 export interface ResponseModel {
   airlines: AirlinesModel;
-  flights: FlightsModel;
+  flights: FlightsModel[];
 }
 
 export interface AirlinesModel {

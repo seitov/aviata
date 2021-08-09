@@ -1,6 +1,6 @@
 <template>
   <div>
-    <header class="header"></header>
+    <header class="header" />
     <main class="main">
       <div class="container">
         <div class="content">
@@ -8,16 +8,24 @@
             <AviataSidebar />
           </section>
           <section class="section section__tickets">
-            <AviataTicket
-              v-for="flight in flights"
-              :key="flight.id"
-              :flight="flight"
-            />
+            <template v-if="flights && flights.length">
+              <AviataTicket
+                v-for="flight in flights"
+                :key="flight.id"
+                :flight="flight"
+              />
+            </template>
+            <template v-else>
+              <span class="text-16px text-semibold">
+                Мы нашли {{ foundFlightsCount }} варианта(ов) перелета, но ни
+                один из вариантов не соответствует заданным фильтрам
+              </span>
+            </template>
           </section>
         </div>
       </div>
     </main>
-    <footer class="footer"></footer>
+    <footer class="footer" />
   </div>
 </template>
 
@@ -36,7 +44,8 @@ export default defineComponent({
   },
   computed: {
     ...mapGetters({
-      flights: "flights",
+      flights: "flightsByFiltering",
+      foundFlightsCount: "foundFlightsCount",
     }),
   },
   created(): void {
