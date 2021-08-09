@@ -60,6 +60,9 @@ export default defineComponent({
   padding-bottom: 120px;
   width: 100%;
   background-color: $base-dark-gray;
+  @include laptop {
+    padding-bottom: 110px;
+  }
 }
 
 .content {
@@ -67,6 +70,9 @@ export default defineComponent({
   display: flex;
   justify-content: space-between;
   padding-top: 23px;
+  @include laptop {
+    padding-top: 15px;
+  }
 }
 
 .section {
@@ -75,6 +81,9 @@ export default defineComponent({
   &__sidebar {
     width: 25%;
     margin-right: 20px;
+    @include laptop {
+      margin-right: 10px;
+    }
   }
 
   &__tickets {

@@ -147,6 +147,9 @@ export default defineComponent({
   margin-bottom: 12px;
   max-height: 320px;
   position: relative;
+  @include laptop {
+    margin-bottom: 10px;
+  }
   &:last-child {
     margin-bottom: 0;
   }
